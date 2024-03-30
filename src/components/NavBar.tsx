@@ -1,4 +1,6 @@
-const NavBar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+import { ReactNode } from "react";
+
+const NavBar = ({ children }: { children: ReactNode }) => {
   return <nav className="nav-bar">{children}</nav>;
 };
 

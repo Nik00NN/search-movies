@@ -1,6 +1,6 @@
+import { MovieType } from "../types";
 import { Movie } from "./ListBox";
-
-const MovieList: React.FC<{ movies: Movie[] }> = ({ movies }) => {
+const MovieList = ({ movies }: { movies: MovieType[] }) => {
   return (
     <ul className="list">
       {movies?.map((movie) => (

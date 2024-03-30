@@ -1,4 +1,6 @@
-const Main: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+import { ReactNode } from "react";
+
+const Main = ({ children }: { children: ReactNode }) => {
   return <main className="main">{children}</main>;
 };
 

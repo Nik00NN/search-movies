@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { tempWatchedData } from "../data";
+import { WatchedMovieType } from "../types";
 const WatchedBox = () => {
   const [isOpen2, setIsOpen2] = useState(true);
   const [watched, setWatched] = useState(tempWatchedData);
@@ -22,7 +23,7 @@ const WatchedBox = () => {
   );
 };
 
-const WatchedSummary: React.FC<{ watched: WatchedMovie[] }> = ({ watched }) => {
+const WatchedSummary = ({ watched }: { watched: WatchedMovieType[] }) => {
   const average = (arr: number[]) =>
     arr.reduce((acc, cur, _, arr) => acc + cur / arr.length, 0);
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
@@ -53,19 +54,17 @@ const WatchedSummary: React.FC<{ watched: WatchedMovie[] }> = ({ watched }) => {
   );
 };
 
-const WatchedMoviesList: React.FC<{ watched: WatchedMovie[] }> = ({
-  watched,
-}) => {
+const WatchedMoviesList = ({ watched }: { watched: WatchedMovieType[] }) => {
   return (
     <ul className="list">
       {watched.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
   );
 };
 
-const Movie: React.FC<{ movie: WatchedMovie }> = ({ movie }) => {
+const WatchedMovie = ({ movie }: { movie: WatchedMovieType }) => {
   return (
     <li key={movie.imdbID}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />

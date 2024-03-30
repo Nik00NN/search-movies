@@ -1,11 +1,11 @@
-interface Movie {
+export interface MovieType {
   imdbID: string;
   Title: string;
   Year: string;
   Poster: string;
 }
 
-interface WatchedMovie {
+export interface WatchedMovieType {
   imdbID: string;
   Title: string;
   Year: string;
