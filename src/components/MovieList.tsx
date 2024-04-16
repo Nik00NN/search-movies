@@ -1,12 +1,16 @@
 import { MovieType } from "../types";
 const MovieList = ({ movies }: { movies: MovieType[] }) => {
-  return (
-    <ul className="list">
-      {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
-      ))}
-    </ul>
-  );
+    return (
+        <ul className="list">
+            {movies.length > 0 ? (
+                movies.map((movie) => (
+                    <Movie movie={movie} key={movie.imdbID} />
+                ))
+            ) : (
+                <li>No movies found</li>
+            )}
+        </ul>
+    );
 };
 
 const Movie = ({ movie }: { movie: MovieType }) => {
