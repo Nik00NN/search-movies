@@ -1,6 +1,6 @@
 import { MovieType } from "../types";
 const MovieList = ({ movies, onSelectMovie }: { movies: MovieType[] }) => {
-    console.log(movies);
+
     return (
         <ul className="list list-movies">
             {movies.length > 0 ? (
