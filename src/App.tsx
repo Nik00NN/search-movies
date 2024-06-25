@@ -32,7 +32,7 @@ function App() {
     }
 
     const handleAddWatchedMovie = (movie) => {
-        setWatched(watched => [...watched,movie])
+        setWatched(watched => [...watched, movie])
     }
 
     const handleDeleteWatchedMovie = (id) => {
@@ -41,12 +41,15 @@ function App() {
 
     useEffect(
         function () {
+            const controller = new AbortController();
+
+
             async function fetchMovies() {
                 try {
                     setIsLoading(true);
                     setError("");
 
-                    const res = await fetch(` http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`);
+                    const res = await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`, {signal: controller.signal});
 
                     if (!res.ok) throw new Error("Something went wrong with fetching movies")
 
@@ -54,21 +57,30 @@ function App() {
 
                     if (data.Response === 'False') throw new Error('Movie not found')
                     setMovies(data.Search);
+                    setError("");
                 } catch (err) {
                     console.error(err.message);
-                    setError(err.message);
+
+                    if(err.name !== "AbortError"){
+                        setError(err.message);
+                    }
+
                 } finally {
                     setIsLoading(false);
                 }
             }
 
-            if(query.length < 3){
+            if (query.length < 3) {
                 setMovies([]);
                 setError("");
                 return;
             }
 
             fetchMovies();
+
+            return function (){
+                controller.abort();
+            }
         }, [query]);
 
     return (
@@ -81,17 +93,18 @@ function App() {
             <Main>
                 <Box>
                     {isLoading && <Loader/>}
-                    {!isLoading && !error && <MovieList movies={movies} onSelectMovie = {handleSelectMovie}/>}
+                    {!isLoading && !error && <MovieList movies={movies} onSelectMovie={handleSelectMovie}/>}
                     {error && <ErrorMessage message={error}/>}
                 </Box>
                 <Box>
                     {selectedId ? (
-                            <MovieDetails selectedId={selectedId} onCloseMovieDetails={handleCloseMovieDetails} onAddWatchedMovie={handleAddWatchedMovie} watched={watched}/> ) : (
-                                <>
-                                <WatchedSummary watched={watched} />
-                                <WatchedMoviesList watched={watched} onDeleteWatchedMovie={handleDeleteWatchedMovie} />
-                                </>
-                        )}
+                        <MovieDetails selectedId={selectedId} onCloseMovieDetails={handleCloseMovieDetails}
+                                      onAddWatchedMovie={handleAddWatchedMovie} watched={watched}/>) : (
+                        <>
+                            <WatchedSummary watched={watched}/>
+                            <WatchedMoviesList watched={watched} onDeleteWatchedMovie={handleDeleteWatchedMovie}/>
+                        </>
+                    )}
                 </Box>
             </Main>
         </>

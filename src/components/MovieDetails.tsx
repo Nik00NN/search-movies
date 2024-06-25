@@ -40,7 +40,6 @@ const MovieDetails = ({selectedId, onCloseMovieDetails, onAddWatchedMovie, watch
         onCloseMovieDetails();
     }
 
-
     useEffect(() => {
         async function getMovieDetails() {
             setIsLoading(true)
@@ -53,6 +52,15 @@ const MovieDetails = ({selectedId, onCloseMovieDetails, onAddWatchedMovie, watch
 
         getMovieDetails()
     }, [selectedId]);
+
+    useEffect(() => {
+        if (!title) return;
+        document.title = `Movie | ${title}`;
+
+        return function () {
+            document.title = 'Search Movies';
+        }
+    }, [title]);
 
     return (
         <div className="details">
