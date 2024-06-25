@@ -8,9 +8,9 @@ export interface MovieType {
 
 export interface WatchedMovieType {
   imdbID: string;
-  Title: string;
-  Year: string;
-  Poster: string;
+  title: string;
+  year: string;
+  poster: string;
   runtime: number;
   imdbRating: number;
   userRating: number;
